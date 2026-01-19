@@ -1,0 +1,19 @@
+[auth]
+cookie_str = "c_secure_pass=eyJ1c2VyX2lkIjoiMTE0NTc4IiwiZXhwaXJlcyI6MTc5OTk5Mjc0OX0uMDE0NzA5NmZhNzA1N2QzMmVlOWVmZmJhNTE0ZmNkMjc5YjczNTY0NjVkNzA5MDA0MTQ1YzNmMThkYWYwYzI3Yg%3D%3D"
+
+[site]
+base_url = "https://pt.vclib.online/"
+start_url = "https://pt.vclib.online/torrents.php?sort=4&type=desc"
+
+[download]
+save_dir = "downloads"
+max_count = 200
+start_page = 8
+delay_min = 1.0
+delay_max = 2.0
+
+[network]
+max_retries = 3
+backoff_factor = 2
+timeout = 30
+user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
