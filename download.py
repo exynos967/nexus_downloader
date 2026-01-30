@@ -34,11 +34,33 @@ CONF = load_config()
 if not CONF:
     exit(1)
 
+def get_site_dirname(base_url: str) -> str:
+    """从 base_url 生成一个稳定、可做目录名的站点标识。"""
+    parsed = urlparse(base_url)
+
+    hostname = parsed.hostname or parsed.netloc or parsed.path or "site"
+    dirname = hostname
+
+    if parsed.hostname and parsed.port:
+        dirname = f"{parsed.hostname}_{parsed.port}"
+
+    path_part = parsed.path.strip("/")
+    if path_part:
+        dirname = f"{dirname}_{path_part}"
+
+    dirname = re.sub(r'[\\\\/:*?"<>|]+', "_", dirname).strip()
+    return dirname or "site"
+
+def get_download_dir(download_root: str, base_url: str) -> str:
+    """每个站点单独落盘到 downloads/<site>/..."""
+    return os.path.join(download_root, get_site_dirname(base_url))
+
 # 配置映射
 COOKIE_STR = CONF['auth']['cookie_str']
 BASE_URL = CONF['site']['base_url']
 START_URL = CONF['site']['start_url']
-DOWNLOAD_DIR = CONF['download']['save_dir']
+DOWNLOAD_ROOT_DIR = CONF['download']['save_dir']
+DOWNLOAD_DIR = get_download_dir(DOWNLOAD_ROOT_DIR, BASE_URL)
 
 MAX_DOWNLOAD_COUNT = CONF['download']['max_count']
 START_PAGE = CONF['download']['start_page']
